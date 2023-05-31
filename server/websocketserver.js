@@ -32,13 +32,22 @@ const onConnection = (ws) => {
   ws.on("close", () => onClose(ws));
   ws.on("message", (message) => onClientMessage(ws, message));
   ws.send("Hello Client!");
-  //TODO!!!!!! Add the client to the clients array
+  //TODO !!!!!! Add the client to the clients array
+  clients.push(ws);
 };
 
 // If a new message is received, the onClientMessage function is called
 const onClientMessage = (ws, message) => {
   console.log("Message received: " + message);
-  //TODO!!!!!! Send the message to the redis channel
+  //TODO !!!!!! Send the message to the redis channel
+  /*let messageData = JSON.parse(message);
+  let username = messageData.username;
+  let messageContent = messageData.message;
+  let redisData = {
+    username: username,
+    message: messageContent
+  };
+  publisher.publish("newMessage", JSON.stringify(redisData));*/
 };
 
 // If a new message from the redis channel is received, the onRedisMessage function is called
