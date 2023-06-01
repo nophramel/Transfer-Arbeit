@@ -8,7 +8,11 @@ socket.addEventListener("open", (event) => {
 
 socket.addEventListener("message", (event) => {
   const data = JSON.parse(event.data);
-  const { username, message } = data;
+  const { username, message, timestamp } = data;
+
+  // Zeitstempel in lokaler deutschen Zeit konvertieren
+  const options = { hour: "numeric", minute: "numeric" };
+  const time = new Date(timestamp).toLocaleTimeString("de-DE", options);
 
   // Füge die empfangene Nachricht zum Chatfenster hinzu
   const chatMessages = document.querySelector(".chat-messages");
@@ -23,7 +27,7 @@ socket.addEventListener("message", (event) => {
       <div class="flex flex-col">
         <div class="flex items-baseline space-x-2">
           <div class="font-bold">${username}</div>
-          <div class="text-sm text-gray-400">5:20 pm</div>
+          <div class="text-sm text-gray-400">${time}</div>
         </div>
         <div class="text-sm text-gray-500">${message}</div>
       </div>
@@ -56,7 +60,8 @@ function sendMessage() {
   if (message !== "") {
     const data = {
       username: username,
-      message: message
+      message: message,
+      timestamp: new Date().getTime()
     };
     socket.send(JSON.stringify(data));
     textarea.value = "";
