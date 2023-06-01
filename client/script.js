@@ -65,3 +65,22 @@ function sendMessage() {
 usernameInput.addEventListener("change", (event) => {
   username = event.target.value;
 });
+
+
+function showPopup() {
+  const overlay = document.getElementById("overlay");
+  overlay.style.display = "flex";
+}
+
+function joinChat() {
+  const username = document.getElementById("username-input").value.trim();
+  if (username !== "") {
+    // Sende eine Benachrichtigung an die Chat-Teilnehmer
+    const message = username + " ist dem Chat beigetreten!";
+    socket.send(message);
+
+    // Verstecke das Anmelde-Popup
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "none";
+  }
+}

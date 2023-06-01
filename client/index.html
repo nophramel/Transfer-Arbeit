@@ -18,17 +18,22 @@
             </div>
             <div class="input-container">
                 <div class="input-area">
-                    <textarea></textarea>
+                    <textarea placeholder="Chatnachricht eingeben"></textarea>
                     <div class="buttons">
-                        <div>
-                            <input type="text" id="username-input" placeholder="Benutzername">
-                        </div>
                         <div>
                             <button onclick="sendMessage()">Senden</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="popup">
+            <h2>Bitte einen Benutzernamen eingeben</h2>
+            <input type="text" id="username-input" placeholder="Benutzername">
+            <button onclick="joinChat()">Beitreten</button>
         </div>
     </div>
 
