@@ -15,24 +15,18 @@ socket.addEventListener("message", (event) => {
   const time = new Date(timestamp).toLocaleTimeString("de-DE", options);
 
   // Füge die empfangene Nachricht zum Chatfenster hinzu
-  const chatMessages = document.querySelector(".chat-messages");
+  const chatMessages = document.querySelector(".chat-messages ul");
   const newMessage = document.createElement("li");
   newMessage.innerHTML = `
-    <div class="flex space-x-2 pl-2 pt-2">
-      <div class="flex-shrink-0">
-        <div class="h-10 w-10 rounded-full bg-indigo-400 flex items-center justify-center font-bold text-white">
-          ${username.charAt(0)}
-        </div>
-      </div>
-      <div class="flex flex-col">
-        <div class="flex items-baseline space-x-2">
-          <div class="font-bold">${username}</div>
-          <div class="text-sm text-gray-400">${time}</div>
-        </div>
-        <div class="text-sm text-gray-500">${message}</div>
-      </div>
+  <div class="message">
+    <div class="avatar">${username.charAt(0)}</div>
+    <div class="message-details">
+        <div class="time">${time}</div>
+        <div class="username">${username}</div>
+      <div class="message-text">${message}</div>
     </div>
-  `;
+  </div>
+`;
   chatMessages.appendChild(newMessage);
 });
 
