@@ -16,8 +16,8 @@
     <div class="grid h-screen">
         <div class="flex max-h-screen flex-col">
             <div class="header text-md border-b border-gray-200 py-4 pl-4 font-bold">Chat</div>
-            <div class="chat-messages flex-1 overflow-y-scroll pl-5">
-                <ul class="space-y-4">
+            <div class="chat-messages flex-1 overflow-y-scroll">
+                <ul class="space-y-4 pl-4">
                     <!-- Hier werden die empfangenen Nachrichten angezeigt -->
                 </ul>
             </div>
@@ -26,6 +26,7 @@
                     <textarea class="w-full flex-1 outline-none"></textarea>
                     <div class="buttons flex flex-row items-center space-x-2 align-baseline">
                         <div class="flex-1">
+                            <input type="text" id="username-input" placeholder="Benutzername">
                         </div>
                         <div>
                             <button class="float-right rounded-xl bg-indigo-500 p-2">

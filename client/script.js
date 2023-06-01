@@ -1,16 +1,34 @@
 const socket = new WebSocket("ws://localhost:3000");
 
+let username = ""; // Variable zur Speicherung des Benutzernamens
+
 socket.addEventListener("open", (event) => {
   console.log("WebSocket connected!");
-  socket.send("Hello, server!");
 });
 
 socket.addEventListener("message", (event) => {
-  console.log(`Received message: ${event.data}`);
-  // TODO: Füge den empfangenen Nachrichteninhalt zum Chatfenster hinzu
+  const data = JSON.parse(event.data);
+  const { username, message } = data;
+
+  // Füge die empfangene Nachricht zum Chatfenster hinzu
   const chatMessages = document.querySelector(".chat-messages");
   const newMessage = document.createElement("li");
-  newMessage.textContent = event.data;
+  newMessage.innerHTML = `
+    <div class="flex space-x-2 pl-2 pt-2">
+      <div class="flex-shrink-0">
+        <div class="h-10 w-10 rounded-full bg-indigo-400 flex items-center justify-center font-bold text-white">
+          ${username.charAt(0)}
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-baseline space-x-2">
+          <div class="font-bold">${username}</div>
+          <div class="text-sm text-gray-400">5:20 pm</div>
+        </div>
+        <div class="text-sm text-gray-500">${message}</div>
+      </div>
+    </div>
+  `;
   chatMessages.appendChild(newMessage);
 });
 
@@ -22,12 +40,29 @@ socket.addEventListener("error", (event) => {
   console.error("WebSocket error:", event);
 });
 
-// TODO: Event-Handler für das Texteingabefeld und den Senden-Button
+// Event-Handler für das Texteingabefeld und den Senden-Button
 const textarea = document.querySelector("textarea");
-const sendButton = document.querySelector("button");
+const usernameInput = document.querySelector("#username-input");
 
-sendButton.addEventListener("click", () => {
-  const message = textarea.value;
-  socket.send(message);
-  textarea.value = ""; // Leere das Texteingabefeld nach dem Senden
+textarea.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    sendMessage();
+  }
+});
+
+function sendMessage() {
+  const message = textarea.value.trim();
+  if (message !== "") {
+    const data = {
+      username: username,
+      message: message
+    };
+    socket.send(JSON.stringify(data));
+    textarea.value = "";
+  }
+}
+
+usernameInput.addEventListener("change", (event) => {
+  username = event.target.value;
 });
