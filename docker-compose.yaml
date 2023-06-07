@@ -6,3 +6,12 @@ services:
     restart: always
     ports:
       - 6379:6379
+
+transfer_arbeit:
+  image: nophramel/transfer_arbeit
+  ports:
+    - 9000:3000
+  environment:
+    - REDIS_HOST=redis
+  depends_on:
+    - redis
