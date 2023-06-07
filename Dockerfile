@@ -11,7 +11,7 @@ COPY package.json package-lock.json ./
 RUN yarn install
 
 # Copy the source code to the container
-COPY . app
+COPY . .
 
 # Start the server when the container starts
 CMD ["yarn", "prod"]
