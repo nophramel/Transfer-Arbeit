@@ -1,4 +1,6 @@
 const socket = new WebSocket("ws://localhost:3000");
+const usersSet = new Set();
+
 
 let username = ""; // Variable zur Speicherung des Benutzernamens
 
@@ -73,14 +75,23 @@ function showPopup() {
 }
 
 function joinChat() {
-  const username = document.getElementById("username-input").value.trim();
-  if (username !== "") {
+  const newUsername = document.getElementById("username-input").value.trim();
+  if (newUsername !== "") {
     // Sende eine Benachrichtigung an die Chat-Teilnehmer
-    const message = username + " ist dem Chat beigetreten!";
+    const message = newUsername + " ist dem Chat beigetreten!";
     socket.send(message);
+
+    // Aktualisiere die Teilnehmerliste
+    const usersElement = document.getElementById("users");
+    const userElement = document.createElement("li");
+    userElement.innerHTML = newUsername;
+    usersElement.appendChild(userElement);
 
     // Verstecke das Anmelde-Popup
     const overlay = document.getElementById("overlay");
     overlay.style.display = "none";
+
+    // Setze den aktuellen Benutzernamen
+    username = newUsername;
   }
 }
