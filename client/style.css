@@ -293,3 +293,25 @@ textarea {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.floating-container {
+    position: fixed;
+    bottom: 200px;
+    right: 0px;
+    width: 200px;
+    background-color: white;
+    /* border: 1px solid gray; */
+    padding: 10px;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#users {
+    list-style: disc inside;
+    padding: 0;
+    margin: 0;
+}
+
+#users li {
+    margin-bottom: 5px;
+}
