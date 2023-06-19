@@ -2,7 +2,7 @@
 FROM node:18
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /
 
 # Copy the package.json and package-lock.json files to the container
 COPY package.json package-lock.json ./
@@ -14,4 +14,4 @@ RUN yarn install
 COPY . .
 
 # Start the server when the container starts
-CMD ["yarn", "prod"]
+CMD ["yarn", "dev"]

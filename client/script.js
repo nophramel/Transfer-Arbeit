@@ -1,22 +1,25 @@
 const socket = new WebSocket("ws://localhost:3000");
 const usersSet = new Set();
 
-
-let username = ""; // Variable zur Speicherung des Benutzernamens
+  // variable to set username
+let username = "";
 
 socket.addEventListener("open", (event) => {
   console.log("WebSocket connected!");
 });
 
 socket.addEventListener("message", (event) => {
+  // variable to connect username with message and timestamp
   const data = JSON.parse(event.data);
   const { username, message, timestamp } = data;
 
-  // Zeitstempel in lokaler deutschen Zeit konvertieren
+  // converts timestamp to german time format
   const options = { hour: "numeric", minute: "numeric" };
   const time = new Date(timestamp).toLocaleTimeString("de-DE", options);
 
-  // Füge die empfangene Nachricht zum Chatfenster hinzu
+  // adds message to chat-message list, formated as followed:
+  // avater contains first username character in a circle, timestamp in german time format
+  // username in bold font, chat message on new line
   const chatMessages = document.querySelector(".chat-messages ul");
   const newMessage = document.createElement("li");
   newMessage.innerHTML = `
@@ -32,18 +35,21 @@ socket.addEventListener("message", (event) => {
   chatMessages.appendChild(newMessage);
 });
 
+  // prints message to console if connection is closed
 socket.addEventListener("close", (event) => {
   console.log("WebSocket closed.");
 });
 
+  // prints message to console if an error occurs
 socket.addEventListener("error", (event) => {
   console.error("WebSocket error:", event);
 });
 
-// Event-Handler für das Texteingabefeld und den Senden-Button
+  // variables for textarea and username input button
 const textarea = document.querySelector("textarea");
 const usernameInput = document.querySelector("#username-input");
 
+  // eventlistener to call sendMessage Function if enter key is pressed
 textarea.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();
@@ -51,8 +57,10 @@ textarea.addEventListener("keydown", (event) => {
   }
 });
 
+  // function to send message
 function sendMessage() {
   const message = textarea.value.trim();
+  // if message is not empty, send message and clear textarea
   if (message !== "") {
     const data = {
       username: username,
@@ -64,34 +72,36 @@ function sendMessage() {
   }
 }
 
+  // function to change username
 usernameInput.addEventListener("change", (event) => {
   username = event.target.value;
 });
 
-
+  // function to show popup overlay with username input field and button
 function showPopup() {
   const overlay = document.getElementById("overlay");
   overlay.style.display = "flex";
 }
 
+  // function to join the chatroom
 function joinChat() {
   const newUsername = document.getElementById("username-input").value.trim();
   if (newUsername !== "") {
-    // Sende eine Benachrichtigung an die Chat-Teilnehmer
+    // sends a message to chat participants
     const message = newUsername + " ist dem Chat beigetreten!";
     socket.send(message);
 
-    // Aktualisiere die Teilnehmerliste
+    // updates participant list
     const usersElement = document.getElementById("users");
     const userElement = document.createElement("li");
     userElement.innerHTML = newUsername;
     usersElement.appendChild(userElement);
 
-    // Verstecke das Anmelde-Popup
+    // hides popup overlay (username & confirm button)
     const overlay = document.getElementById("overlay");
     overlay.style.display = "none";
 
-    // Setze den aktuellen Benutzernamen
+    // set username
     username = newUsername;
   }
 }

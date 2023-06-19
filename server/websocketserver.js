@@ -4,7 +4,7 @@ let publisher;
 
 const clients = [];
 
-// Intiiate the websocket server
+// Intitiate the websocket server
 const initializeWebsocketServer = async (server) => {
   const client = redis.createClient({
     socket: {
