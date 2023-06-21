@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: chat
-          image: nophramel/transfer_arbeit:latest # image from my dockerhub?
+          image: nophramel/transfer_arbeit:latest
           resources:
             limits:
               cpu: "0.5"
